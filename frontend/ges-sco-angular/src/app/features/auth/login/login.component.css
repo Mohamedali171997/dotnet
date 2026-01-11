@@ -1,0 +1,113 @@
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+  padding: 1rem;
+}
+
+.login-content {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.brand {
+  text-align: center;
+  color: white;
+}
+
+.logo-img {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1rem;
+  display: block;
+  filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.3));
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+}
+
+.brand p {
+  margin: 0.5rem 0 0;
+  opacity: 0.8;
+  font-size: 1rem;
+}
+
+.login-card {
+  padding: 2rem 1rem 1rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+  background: rgba(255, 255, 255, 0.98);
+}
+
+mat-card-header {
+  justify-content: center;
+  margin-bottom: 2rem !important;
+  text-align: center;
+}
+
+mat-card-title {
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.5rem !important;
+  color: #333;
+}
+
+mat-card-subtitle {
+  font-size: 0.9rem;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.error-alert {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 0.75rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.login-btn {
+  width: 100%;
+  margin-top: 1rem;
+  height: 48px;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  border-radius: 8px;
+}
+
+mat-card-footer {
+  margin-top: 1.5rem !important;
+  text-align: center;
+  padding-bottom: 1rem;
+}
+
+mat-card-footer a {
+  color: #1a237e;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+mat-card-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Material Overrides */
+::ng-deep .mdc-text-field--outlined {
+  --mdc-theme-primary: #1a237e;
+}
