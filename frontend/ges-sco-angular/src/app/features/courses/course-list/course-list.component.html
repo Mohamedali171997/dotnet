@@ -1,0 +1,32 @@
+<div class="page-header">
+    <h2>Gestion des Cours</h2>
+    <a routerLink="/courses/new" class="btn btn-primary">➕ Nouveau Cours</a>
+</div>
+
+<div class="table-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Matière</th>
+                <th>Classe</th>
+                <th>Enseignant</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let course of courses">
+                <td>{{ course.subjectName }} ({{ course.subjectCode }})</td>
+                <td><span class="badge class-badge">{{ course.className }}</span></td>
+                <td>{{ course.teacherName }}</td>
+                <td class="actions">
+                    <a [routerLink]="['/courses', course.id, 'edit']" class="btn-icon">✏️</a>
+                    <button (click)="deleteCourse(course.id)" class="btn-icon delete">🗑️</button>
+                </td>
+            </tr>
+            <tr *ngIf="courses.length === 0 && !loading">
+                <td colspan="4" class="text-center">Aucun cours trouvé.</td>
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="loading" class="text-center p-3">Chargement...</div>
+</div>

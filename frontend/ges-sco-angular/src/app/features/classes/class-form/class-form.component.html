@@ -1,0 +1,51 @@
+<div class="form-container">
+    <div class="header">
+        <h2>{{ isEditMode ? 'Modifier' : 'Ajouter' }} une Classe</h2>
+    </div>
+
+    <form [formGroup]="classForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label>Nom de la classe</label>
+            <input type="text" formControlName="name" class="form-control"
+                [class.error]="submitted && classForm.get('name')?.invalid" placeholder="Ex: 6ème A">
+            <span class="error-msg" *ngIf="submitted && classForm.get('name')?.errors?.['required']">Nom requis</span>
+        </div>
+
+        <div class="form-group">
+            <label>Niveau</label>
+            <select formControlName="level" class="form-control"
+                [class.error]="submitted && classForm.get('level')?.invalid">
+                <option value="">Sélectionner un niveau</option>
+                <option value="6ème">6ème</option>
+                <option value="5ème">5ème</option>
+                <option value="4ème">4ème</option>
+                <option value="3ème">3ème</option>
+                <option value="2nde">2nde</option>
+                <option value="1ère">1ère</option>
+                <option value="Terminale">Terminale</option>
+            </select>
+            <span class="error-msg" *ngIf="submitted && classForm.get('level')?.errors?.['required']">Niveau
+                requis</span>
+        </div>
+
+        <div class="form-group">
+            <label>Année Académique</label>
+            <input type="text" formControlName="academicYear" class="form-control"
+                [class.error]="submitted && classForm.get('academicYear')?.invalid" placeholder="Ex: 2025-2026">
+            <span class="error-msg" *ngIf="submitted && classForm.get('academicYear')?.errors?.['pattern']">Format
+                requis: YYYY-YYYY</span>
+        </div>
+
+        <div class="form-group">
+            <label>Capacité</label>
+            <input type="number" formControlName="capacity" class="form-control"
+                [class.error]="submitted && classForm.get('capacity')?.invalid">
+            <span class="error-msg" *ngIf="submitted && classForm.get('capacity')?.errors?.['min']">Minimum 1</span>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" routerLink="/classes" class="btn btn-secondary">Annuler</button>
+            <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Mettre à jour' : 'Créer' }}</button>
+        </div>
+    </form>
+</div>

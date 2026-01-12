@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Ges-sco.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2a4572a9255d4e29390d3bda6201b1eb2804c008")]
 [assembly: System.Reflection.AssemblyProductAttribute("Ges-sco.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Ges-sco.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

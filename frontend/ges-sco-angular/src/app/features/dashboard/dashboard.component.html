@@ -1,0 +1,69 @@
+<div class="dashboard-container">
+    <div class="header">
+        <h1>Tableau de bord</h1>
+        <p>Bienvenue dans votre espace de gestion scolaire</p>
+    </div>
+
+    <div *ngIf="loading" class="loading-spinner">
+        Chargement des données...
+    </div>
+
+    <div *ngIf="!loading && stats" class="stats-grid">
+        <div class="stat-card blue">
+            <div class="icon">👨‍🎓</div>
+            <div class="details">
+                <h3>Étudiants</h3>
+                <span class="value">{{ stats.totalStudents }}</span>
+            </div>
+        </div>
+
+        <div class="stat-card green">
+            <div class="icon">👩‍🏫</div>
+            <div class="details">
+                <h3>Enseignants</h3>
+                <span class="value">{{ stats.totalTeachers }}</span>
+            </div>
+        </div>
+
+        <div class="stat-card orange">
+            <div class="icon">🏫</div>
+            <div class="details">
+                <h3>Classes</h3>
+                <span class="value">{{ stats.totalClasses }}</span>
+            </div>
+        </div>
+
+        <div class="stat-card purple">
+            <div class="icon">📚</div>
+            <div class="details">
+                <h3>Cours</h3>
+                <span class="value">{{ stats.totalCourses }}</span>
+            </div>
+        </div>
+
+        <div class="stat-card teal">
+            <div class="icon">📝</div>
+            <div class="details">
+                <h3>Moyenne Générale</h3>
+                <span class="value">{{ stats.averageGrade }} / 20</span>
+            </div>
+        </div>
+
+        <div class="stat-card red">
+            <div class="icon">📅</div>
+            <div class="details">
+                <h3>Taux de Présence</h3>
+                <span class="value">{{ stats.averageAttendanceRate }}%</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-actions">
+        <h2>Actions Rapides</h2>
+        <div class="actions-grid">
+            <button class="action-btn">➕ Ajouter un Étudiant</button>
+            <button class="action-btn">➕ Saisir des Notes</button>
+            <button class="action-btn">➕ Faire l'appel</button>
+        </div>
+    </div>
+</div>

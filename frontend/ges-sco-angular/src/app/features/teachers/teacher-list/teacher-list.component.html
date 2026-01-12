@@ -1,0 +1,37 @@
+<div class="page-header">
+    <h2>Gestion des Enseignants</h2>
+    <a routerLink="/teachers/new" class="btn btn-primary">➕ Nouvel Enseignant</a>
+</div>
+
+<div class="table-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Nom Complet</th>
+                <th>Email</th>
+                <th>Spécialisation</th>
+                <th>Qualification</th>
+                <th>Date d'embauche</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let teacher of teachers">
+                <td>{{ teacher.fullName }}</td>
+                <td>{{ teacher.email }}</td>
+                <td>{{ teacher.specialization || '-' }}</td>
+                <td>{{ teacher.qualification || '-' }}</td>
+                <td>{{ teacher.hireDate | date:'dd/MM/yyyy' }}</td>
+                <td class="actions">
+                    <a [routerLink]="['/teachers', teacher.id]" class="btn-icon">👁️</a>
+                    <a [routerLink]="['/teachers', teacher.id, 'edit']" class="btn-icon">✏️</a>
+                    <button (click)="deleteTeacher(teacher.id)" class="btn-icon delete">🗑️</button>
+                </td>
+            </tr>
+            <tr *ngIf="teachers.length === 0 && !loading">
+                <td colspan="6" class="text-center">Aucun enseignant trouvé.</td>
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="loading" class="text-center p-3">Chargement...</div>
+</div>

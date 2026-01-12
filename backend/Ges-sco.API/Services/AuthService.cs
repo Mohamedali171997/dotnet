@@ -1,5 +1,6 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,16 +31,12 @@ namespace Ges_sco.API.Services
             var user = users.FirstOrDefault();
 
             if (user == null || !user.IsActive)
-            {
                 return null;
-            }
 
             bool isPasswordValid = BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash);
             
             if (!isPasswordValid)
-            {
                 return null;
-            }
 
             var token = GenerateJwtToken(user);
             var expiration = DateTime.UtcNow.AddMinutes(double.Parse(_configuration["JwtSettings:DurationInMinutes"]!));
@@ -53,6 +50,63 @@ namespace Ges_sco.API.Services
                 FirstName = user.FirstName,
                 LastName = user.LastName
             };
+        }
+
+        public async Task<AuthResponseDto?> RegisterAsync(RegisterDto registerDto)
+        {
+            // Check if email already exists
+            var existingUsers = await _unitOfWork.Users.FindAsync(u => u.Email == registerDto.Email);
+            if (existingUsers.Any())
+                return null;
+
+            var user = new User
+            {
+                FirstName = registerDto.FirstName,
+                LastName = registerDto.LastName,
+                Email = registerDto.Email,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
+                Role = registerDto.Role,
+                IsActive = true,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            await _unitOfWork.Users.AddAsync(user);
+            await _unitOfWork.CompleteAsync();
+
+            var token = GenerateJwtToken(user);
+            var expiration = DateTime.UtcNow.AddMinutes(double.Parse(_configuration["JwtSettings:DurationInMinutes"]!));
+
+            return new AuthResponseDto
+            {
+                Token = token,
+                Expiration = expiration,
+                Email = user.Email,
+                Role = user.Role,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            };
+        }
+
+        public async Task<bool> ChangePasswordAsync(int userId, string currentPassword, string newPassword)
+        {
+            var user = await _unitOfWork.Users.GetByIdAsync(userId);
+            if (user == null)
+                return false;
+
+            if (!BCrypt.Net.BCrypt.Verify(currentPassword, user.PasswordHash))
+                return false;
+
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(newPassword);
+            _unitOfWork.Users.Update(user);
+            await _unitOfWork.CompleteAsync();
+
+            return true;
+        }
+
+        public async Task<bool> IsEmailUniqueAsync(string email)
+        {
+            var users = await _unitOfWork.Users.FindAsync(u => u.Email == email);
+            return !users.Any();
         }
 
         private string GenerateJwtToken(User user)

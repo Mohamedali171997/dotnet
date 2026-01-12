@@ -1,0 +1,36 @@
+<div class="page-header">
+    <h2>Gestion des Classes</h2>
+    <a routerLink="/classes/new" class="btn btn-primary">➕ Nouvelle Classe</a>
+</div>
+
+<div class="table-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Niveau</th>
+                <th>Année Académique</th>
+                <th>Capacité</th>
+                <th>Effectif Actuel</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let classEntity of classes">
+                <td>{{ classEntity.name }}</td>
+                <td>{{ classEntity.level }}</td>
+                <td>{{ classEntity.academicYear }}</td>
+                <td>{{ classEntity.capacity }}</td>
+                <td>{{ classEntity.studentsCount }}</td>
+                <td class="actions">
+                    <a [routerLink]="['/classes', classEntity.id, 'edit']" class="btn-icon">✏️</a>
+                    <button (click)="deleteClass(classEntity.id)" class="btn-icon delete">🗑️</button>
+                </td>
+            </tr>
+            <tr *ngIf="classes.length === 0 && !loading">
+                <td colspan="6" class="text-center">Aucune classe trouvée.</td>
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="loading" class="text-center p-3">Chargement...</div>
+</div>

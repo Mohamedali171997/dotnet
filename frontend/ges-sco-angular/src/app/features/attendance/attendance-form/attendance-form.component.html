@@ -1,0 +1,67 @@
+<div class="form-container">
+    <div class="header">
+        <h2>{{ isEditMode ? 'Modifier' : 'Marquer' }} une Présence</h2>
+    </div>
+
+    <form [formGroup]="attendanceForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label>Date</label>
+            <input type="date" formControlName="date" class="form-control"
+                [class.error]="submitted && attendanceForm.get('date')?.invalid">
+        </div>
+
+        <div class="form-group">
+            <label>Cours / Matière</label>
+            <select formControlName="courseId" class="form-control"
+                [class.error]="submitted && attendanceForm.get('courseId')?.invalid">
+                <option value="">Sélectionner un cours</option>
+                <option *ngFor="let course of courses" [value]="course.id">{{ course.subjectName }} ({{ course.className
+                    }})</option>
+            </select>
+            <span class="error-msg" *ngIf="submitted && attendanceForm.get('courseId')?.errors?.['required']">Cours
+                requis</span>
+        </div>
+
+        <div class="form-group">
+            <label>Étudiant</label>
+            <select formControlName="studentId" class="form-control"
+                [class.error]="submitted && attendanceForm.get('studentId')?.invalid">
+                <option value="">Sélectionner un étudiant</option>
+                <option *ngFor="let student of students" [value]="student.id">{{ student.fullName }}</option>
+            </select>
+            <span class="error-msg" *ngIf="submitted && attendanceForm.get('studentId')?.errors?.['required']">Étudiant
+                requis</span>
+        </div>
+
+        <div class="form-group">
+            <label>Statut</label>
+            <div class="status-options">
+                <label>
+                    <input type="radio" formControlName="status" value="Present"> Présent
+                </label>
+                <label>
+                    <input type="radio" formControlName="status" value="Absent"> Absent
+                </label>
+                <label>
+                    <input type="radio" formControlName="status" value="Late"> Retard
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group" *ngIf="attendanceForm.value.status === 'Absent'">
+            <label>
+                <input type="checkbox" formControlName="isJustified"> Justifié ?
+            </label>
+        </div>
+
+        <div class="form-group" *ngIf="attendanceForm.value.isJustified">
+            <label>Justification</label>
+            <input type="text" formControlName="justification" class="form-control">
+        </div>
+
+        <div class="form-actions">
+            <button type="button" routerLink="/attendance" class="btn btn-secondary">Annuler</button>
+            <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Mettre à jour' : 'Enregistrer' }}</button>
+        </div>
+    </form>
+</div>

@@ -2,6 +2,7 @@ using Ges_sco.API.Database;
 using Microsoft.EntityFrameworkCore;
 using Ges_sco.API.Repositories;
 using Ges_sco.API.Services;
+using Ges_sco.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,14 +12,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Repository Pattern
+// 2. Repository Pattern
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-// Services
-builder.Services.AddScoped<Ges_sco.API.Services.IAuthService, Ges_sco.API.Services.AuthService>();
+// 3. Services Registration
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<ITeacherService, TeacherService>();
+builder.Services.AddScoped<IClassService, ClassService>();
+builder.Services.AddScoped<ISubjectService, SubjectService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<IGradeService, GradeService>();
+builder.Services.AddScoped<IAttendanceService, AttendanceService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 
-// JWT Authentication
+// 4. JWT Authentication
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var key = System.Text.Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
 
@@ -43,26 +52,31 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// 2. Controllers
+// 5. Controllers
 builder.Services.AddControllers();
 
-// CORS
+// 6. CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp",
-        builder =>
+        policy =>
         {
-            builder.WithOrigins("http://localhost:4200")
+            policy.AllowAnyOrigin()
                    .AllowAnyHeader()
                    .AllowAnyMethod();
         });
 });
 
-// 3. Swagger
+// 7. Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Ges-sco API", Version = "v1" });
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo 
+    { 
+        Title = "Ges-sco API", 
+        Version = "v1",
+        Description = "API for School Management System (Gestion Scolaire)"
+    });
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
         Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
@@ -90,10 +104,18 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+// Custom Middleware
+app.UseRequestLogging();
+app.UseErrorHandling();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ges-sco API v1");
+    });
 }
 
 // app.UseHttpsRedirection();

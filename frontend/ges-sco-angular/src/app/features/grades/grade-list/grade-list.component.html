@@ -1,0 +1,38 @@
+<div class="page-header">
+    <h2>Gestion des Notes</h2>
+    <a routerLink="/grades/new" class="btn btn-primary">➕ Nouvelle Note</a>
+</div>
+
+<div class="table-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Étudiant</th>
+                <th>Matière</th>
+                <th>Note</th>
+                <th>Coeff.</th>
+                <th>Type</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let grade of grades">
+                <td>{{ grade.studentName }}</td>
+                <td>{{ grade.subjectName }}</td>
+                <td><strong>{{ grade.value }}/20</strong></td>
+                <td>{{ grade.coefficient }}</td>
+                <td><span class="badge type-badge">{{ grade.type }}</span></td>
+                <td>{{ grade.date | date:'dd/MM/yyyy' }}</td>
+                <td class="actions">
+                    <a [routerLink]="['/grades', grade.id, 'edit']" class="btn-icon">✏️</a>
+                    <button (click)="deleteGrade(grade.id)" class="btn-icon delete">🗑️</button>
+                </td>
+            </tr>
+            <tr *ngIf="grades.length === 0 && !loading">
+                <td colspan="7" class="text-center">Aucune note trouvée.</td>
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="loading" class="text-center p-3">Chargement...</div>
+</div>

@@ -44,7 +44,7 @@ export class LoginComponent {
         }
 
         this.loginForm = this.formBuilder.group({
-            username: ['', Validators.required],
+            email: ['', [Validators.required, Validators.email]],
             password: ['', Validators.required]
         });
     }
@@ -61,7 +61,7 @@ export class LoginComponent {
 
         this.loading = true;
         this.authService.login({
-            username: this.f['username'].value,
+            email: this.f['email'].value,
             password: this.f['password'].value
         })
             .pipe(first())
@@ -72,7 +72,13 @@ export class LoginComponent {
                     this.router.navigate([returnUrl]);
                 },
                 error: error => {
-                    this.error = error.error?.message || error.statusText || 'An error occurred';
+                    // Check if error is 400 or other structure
+                    if (error.status === 400 && error.error?.errors) {
+                        // Validation error
+                        this.error = 'Validation Error: Check email format.';
+                    } else {
+                        this.error = error.error?.message || error.statusText || 'An error occurred';
+                    }
                     this.loading = false;
                 }
             });

@@ -1,0 +1,75 @@
+<div class="form-container">
+    <div class="header">
+        <h2>{{ isEditMode ? 'Modifier' : 'Ajouter' }} une Note</h2>
+    </div>
+
+    <form [formGroup]="gradeForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label>Étudiant</label>
+            <select formControlName="studentId" class="form-control"
+                [class.error]="submitted && gradeForm.get('studentId')?.invalid">
+                <option value="">Sélectionner un étudiant</option>
+                <option *ngFor="let student of students" [value]="student.id">{{ student.fullName }}</option>
+            </select>
+            <span class="error-msg" *ngIf="submitted && gradeForm.get('studentId')?.errors?.['required']">Étudiant
+                requis</span>
+        </div>
+
+        <div class="form-group">
+            <label>Cours / Matière</label>
+            <select formControlName="courseId" class="form-control"
+                [class.error]="submitted && gradeForm.get('courseId')?.invalid">
+                <option value="">Sélectionner un cours</option>
+                <option *ngFor="let course of courses" [value]="course.id">{{ course.subjectName }} ({{ course.className
+                    }})</option>
+            </select>
+            <span class="error-msg" *ngIf="submitted && gradeForm.get('courseId')?.errors?.['required']">Cours
+                requis</span>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Note (/20)</label>
+                <input type="number" formControlName="value" class="form-control" step="0.25" min="0" max="20"
+                    [class.error]="submitted && gradeForm.get('value')?.invalid">
+                <span class="error-msg" *ngIf="submitted && gradeForm.get('value')?.errors?.['min']">Min 0</span>
+                <span class="error-msg" *ngIf="submitted && gradeForm.get('value')?.errors?.['max']">Max 20</span>
+            </div>
+
+            <div class="form-group">
+                <label>Coefficient</label>
+                <input type="number" formControlName="coefficient" class="form-control" step="0.5"
+                    [class.error]="submitted && gradeForm.get('coefficient')?.invalid">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Type</label>
+                <select formControlName="type" class="form-control">
+                    <option value="Exam">Examen</option>
+                    <option value="CC">Contrôle Continu</option>
+                    <option value="TP">Travaux Pratiques</option>
+                    <option value="TD">Travaux Dirigés</option>
+                    <option value="Projet">Projet</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" formControlName="date" class="form-control"
+                    [class.error]="submitted && gradeForm.get('date')?.invalid">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Commentaire</label>
+            <textarea formControlName="comment" class="form-control" rows="2"></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" routerLink="/grades" class="btn btn-secondary">Annuler</button>
+            <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Mettre à jour' : 'Enregistrer' }}</button>
+        </div>
+    </form>
+</div>

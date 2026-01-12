@@ -1,0 +1,36 @@
+<div class="page-header">
+    <h2>Gestion des Matières</h2>
+    <a routerLink="/subjects/new" class="btn btn-primary">➕ Nouvelle Matière</a>
+</div>
+
+<div class="table-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Nom</th>
+                <th>Coefficient</th>
+                <th>Crédits</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let subject of subjects">
+                <td>{{ subject.code }}</td>
+                <td>{{ subject.name }}</td>
+                <td>{{ subject.coefficient }}</td>
+                <td>{{ subject.credits }}</td>
+                <td>{{ subject.description || '-' }}</td>
+                <td class="actions">
+                    <a [routerLink]="['/subjects', subject.id, 'edit']" class="btn-icon">✏️</a>
+                    <button (click)="deleteSubject(subject.id)" class="btn-icon delete">🗑️</button>
+                </td>
+            </tr>
+            <tr *ngIf="subjects.length === 0 && !loading">
+                <td colspan="6" class="text-center">Aucune matière trouvée.</td>
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="loading" class="text-center p-3">Chargement...</div>
+</div>

@@ -1,0 +1,44 @@
+<div class="form-container">
+    <div class="header">
+        <h2>{{ isEditMode ? 'Modifier' : 'Ajouter' }} une Matière</h2>
+    </div>
+
+    <form [formGroup]="subjectForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label>Nom de la matière</label>
+            <input type="text" formControlName="name" class="form-control"
+                [class.error]="submitted && subjectForm.get('name')?.invalid">
+            <span class="error-msg" *ngIf="submitted && subjectForm.get('name')?.errors?.['required']">Nom requis</span>
+        </div>
+
+        <div class="form-group">
+            <label>Code</label>
+            <input type="text" formControlName="code" class="form-control"
+                [class.error]="submitted && subjectForm.get('code')?.invalid" placeholder="Ex: MATH101">
+            <span class="error-msg" *ngIf="submitted && subjectForm.get('code')?.errors?.['required']">Code
+                requis</span>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Coefficient</label>
+                <input type="number" formControlName="coefficient" class="form-control" step="0.5">
+            </div>
+
+            <div class="form-group">
+                <label>Crédits</label>
+                <input type="number" formControlName="credits" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            <textarea formControlName="description" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" routerLink="/subjects" class="btn btn-secondary">Annuler</button>
+            <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Mettre à jour' : 'Créer' }}</button>
+        </div>
+    </form>
+</div>

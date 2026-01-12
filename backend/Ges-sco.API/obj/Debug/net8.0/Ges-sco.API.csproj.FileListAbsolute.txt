@@ -165,3 +165,7 @@
 /home/mohamed/Desktop/dotnet/backend/Ges-sco.API/bin/Debug/net8.0/runtimes/win-arm64/native/e_sqlite3.dll
 /home/mohamed/Desktop/dotnet/backend/Ges-sco.API/bin/Debug/net8.0/runtimes/win-x64/native/e_sqlite3.dll
 /home/mohamed/Desktop/dotnet/backend/Ges-sco.API/bin/Debug/net8.0/runtimes/win-x86/native/e_sqlite3.dll
+/home/mohamed/Desktop/dotnet/backend/Ges-sco.API/obj/Debug/net8.0/Ges-sco.API.sourcelink.json
+/home/mohamed/Desktop/dotnet/backend/Ges-sco.API/bin/Debug/net8.0/FluentValidation.dll
+/home/mohamed/Desktop/dotnet/backend/Ges-sco.API/bin/Debug/net8.0/FluentValidation.AspNetCore.dll
+/home/mohamed/Desktop/dotnet/backend/Ges-sco.API/bin/Debug/net8.0/FluentValidation.DependencyInjectionExtensions.dll

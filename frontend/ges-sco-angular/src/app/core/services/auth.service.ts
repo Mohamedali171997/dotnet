@@ -30,7 +30,7 @@ export class AuthService {
                     localStorage.setItem('token', response.token);
 
                     const user: User = {
-                        username: response.username,
+                        email: response.email,
                         role: response.role,
                         firstName: response.firstName,
                         lastName: response.lastName
